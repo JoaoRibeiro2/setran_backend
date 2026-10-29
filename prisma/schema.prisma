@@ -1,0 +1,62 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum UserPosition {
+  TRAFFIC_AGENT
+  OPERATIONS_AGENT
+}
+
+enum CarType {
+  CAR
+  MOTORCYCLE
+  PICKUP
+}
+
+enum CarStatus {
+  AVAILABLE
+  IN_USE
+  MAINTENANCE
+}
+
+enum DayReportStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  register String       @id @db.VarChar(5)
+  name         String       @db.VarChar(150)
+  passwordHash String       @map("password_hash") @db.VarChar(255)
+  photo        String?      @db.VarChar(500)
+  email        String?      @unique @db.VarChar(255)
+  position     UserPosition @default(TRAFFIC_AGENT)
+  role         UserRole     @default(USER)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("users")
+}
+
+model Cars{
+  id String @id @default(uuid())
+  type CarType @default(CAR)
+  marca String 
+  model String
+  plate String @db.VarChar(7)
+  kmCurrent Int @map("km_current")
+  @@map("cars")
+}

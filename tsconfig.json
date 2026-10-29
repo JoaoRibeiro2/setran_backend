@@ -9,8 +9,8 @@
 
     "module": "Node16",
     "esModuleInterop": true,
-    "forceConsistentCastingInFileNames": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": false,
-    "skiptlibCheck": true
+    "skipLibCheck": true
   }
 }
