@@ -8,7 +8,7 @@ export function errorHandling(
     response: Response, 
     next: NextFunction){
    if(error instanceof AppError){
-        return response.status(400).json({
+          return response.status(error.statusCode).json({
             message: error.message
         })
    }

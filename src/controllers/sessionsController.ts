@@ -16,24 +16,24 @@ class SessionControler{
 
     async create(request: Request, response: Response){
          const bodySchema = z.object({
-            email: z.string().email(),
+            registration: z.string(),
             password: z.string()
         })
 
-        const {email,password} = bodySchema.parse(request.body)
+        const {registration,password} = bodySchema.parse(request.body)
         
         const user = await prisma.user.findFirst({
-            where: {email}
+            where: {register: registration}
         })
 
         if(!user){
-            throw new AppError("Invalid email or password", 401)
+            throw new AppError("Invalid registration or password", 401)
         }
         
         const passwordMached = await compare(password, user.passwordHash)
 
         if(!passwordMached){
-            throw new AppError("Invalid email or password", 401)
+            throw new AppError("Invalid registration or password", 401)
         }
 
         const {secret, expiresIn} = authConfig.jwt

@@ -21,6 +21,7 @@ class UsersController{
 
     const hashedPassword = await hash(password, 8)
     
+
     const user = await prisma.user.create({
             data: {
                 register,
@@ -35,6 +36,12 @@ class UsersController{
     const{passwordHash: _, ...userWithoutPassword } = user
 
     return response.status(201).json(userWithoutPassword)
+    }
+
+    async index(request: Request, response: Response){
+        const users = await prisma.user.findMany()
+
+        return response.json(users)
     }
 }
 
